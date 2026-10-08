@@ -1,0 +1,16 @@
+# Lesson 3: decisions
+let temperature = 24
+let is_raining = true
+
+if temperature >= 30 {
+    print("It is hot.")
+} else if temperature <= 10 {
+    print("It is cold.")
+} else {
+    print("The weather is mild.")
+}
+
+if is_raining {
+    print("Take an umbrella.")
+}
+

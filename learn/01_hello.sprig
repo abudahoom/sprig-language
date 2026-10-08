@@ -1,0 +1,8 @@
+# Lesson 1: output and variables
+# Change these values and run the program again.
+let name = "Maya"
+let language = "Sprig"
+
+print("Hello, " + name + "!")
+print("You are learning", language)
+

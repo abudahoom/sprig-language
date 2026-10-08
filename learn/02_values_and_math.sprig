@@ -1,0 +1,11 @@
+# Lesson 2: values and calculations
+let price = 12.5
+let quantity = 4
+let total = price * quantity
+let discounted = total * 0.9
+
+print("Items:", quantity)
+print("Full price:", total)
+print("After 10% discount:", discounted)
+print("Is the discount below 50?", discounted < 50)
+

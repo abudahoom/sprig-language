@@ -1,0 +1,11 @@
+# Lesson 6: lists
+let tasks = ["learn variables", "learn loops", "build a project"]
+
+print("First task:", tasks[0])
+tasks[1] = "practice loops"
+
+print("My", len(tasks), "tasks:")
+for task in tasks {
+    print("-", task)
+}
+

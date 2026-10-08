@@ -1,0 +1,19 @@
+# Lesson 4: repetition
+print("Colors:")
+for color in ["red", "green", "blue"] {
+    print("-", color)
+}
+
+print("Counting:")
+for number in range(1, 6) {
+    print(number)
+}
+
+print("Countdown:")
+let countdown = 3
+while countdown > 0 {
+    print(countdown)
+    countdown = countdown - 1
+}
+print("Go!")
+

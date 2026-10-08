@@ -1,0 +1,25 @@
+# Solutions to learn/exercises.sprig
+
+let favorite_food = "pizza"
+print("Favorite food:", favorite_food)
+
+let area = 7 * 3
+print("Area should be 21:", area)
+
+let age = 20
+if age >= 18 {
+    print("adult")
+} else {
+    print("not adult yet")
+}
+
+let animals = ["cat", "owl", "fox"]
+for animal in animals {
+    print(animal)
+}
+
+fn double(number) {
+    return number * 2
+}
+print("Double 9 should be 18:", double(9))
+

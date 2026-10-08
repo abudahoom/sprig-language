@@ -42,6 +42,24 @@ python3 -m pip install .
 sprig examples/fizzbuzz.sprig
 ```
 
+## Learn Sprig
+
+New to programming languages? Follow the free, self-paced
+[Learn Sprig course](docs/LEARN_SPRIG.md). It explains what to write, why it
+works, what to change, and what to build next. Every chapter has a runnable
+program in the [`learn/`](learn/) folder.
+
+Start here:
+
+```sh
+python3 -m spriglang learn/01_hello.sprig
+```
+
+Then work through the numbered files. When you are ready to write something of
+your own, copy [`learn/08_mini_project.sprig`](learn/08_mini_project.sprig) and
+replace its sample scores with your own data. The course ends with exercises
+and complete solutions.
+
 ## A quick tour
 
 ```sprig
@@ -248,4 +266,3 @@ Those are natural extension projects, but leaving them out keeps the complete
 implementation readable from end to end.
 
 Released under the MIT License.
-

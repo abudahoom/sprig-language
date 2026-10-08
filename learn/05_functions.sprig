@@ -1,0 +1,17 @@
+# Lesson 5: reusable functions
+fn rectangle_area(width, height) {
+    return width * height
+}
+
+fn minutes_to_seconds(minutes) {
+    return minutes * 60
+}
+
+fn greet(name) {
+    return "Welcome, " + name + "!"
+}
+
+print(greet("Sam"))
+print("Area:", rectangle_area(6, 4))
+print("Five minutes:", minutes_to_seconds(5), "seconds")
+

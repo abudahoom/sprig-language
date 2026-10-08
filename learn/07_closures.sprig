@@ -1,0 +1,20 @@
+# Lesson 7: a function that remembers
+fn make_counter(start) {
+    let count = start
+
+    fn next() {
+        count = count + 1
+        return count
+    }
+
+    return next
+}
+
+let small_counter = make_counter(0)
+let big_counter = make_counter(100)
+
+print(small_counter())
+print(small_counter())
+print(big_counter())
+print(small_counter())
+
