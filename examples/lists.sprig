@@ -1,0 +1,11 @@
+# Lists can hold any values and can be changed by index.
+let groceries = ["apples", "bread", "tea"]
+groceries[1] = "rice"
+
+for item in groceries {
+    print("Remember:", item)
+}
+
+print("First:", groceries[0])
+print("Count:", len(groceries))
+

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=58"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sprig-language"
+version = "1.0.0"
+description = "Sprig: a small, friendly programming language with an interpreter and bytecode VM"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Sprig contributors"}]
+
+[project.scripts]
+sprig = "spriglang.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["spriglang*"]

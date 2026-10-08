@@ -1,0 +1,7 @@
+# Your first Sprig program
+let name = "world"
+print("Hello, " + name + "!")
+
+let tools = ["lexer", "parser", "interpreter", "compiler", "VM"]
+print("Sprig has", len(tools), "parts in this tour.")
+

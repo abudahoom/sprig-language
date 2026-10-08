@@ -1,0 +1,15 @@
+# Functions are values and remember their surrounding scope.
+fn make_counter(start) {
+    let count = start
+    fn next() {
+        count = count + 1
+        return count
+    }
+    return next
+}
+
+let counter = make_counter(10)
+print(counter())
+print(counter())
+print(counter())
+
