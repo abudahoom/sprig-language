@@ -48,6 +48,10 @@ class RuntimeSprigError(SprigError):
     kind = "runtime error"
 
 
+class SemanticError(SprigError):
+    kind = "semantic error"
+
+
 def enrich_error(error: SprigError, source: str, filename: str) -> SprigError:
     if error.source is None:
         error.source = source

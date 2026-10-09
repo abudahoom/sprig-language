@@ -123,13 +123,14 @@ class Interpreter:
                     return left if truthy(left) else self.evaluate(expression.right)
                 return self.evaluate(expression.right) if truthy(left) else left
             if isinstance(expression, ast.Assignment):
-                value = self.evaluate(expression.value)
                 if isinstance(expression.target, ast.Variable):
+                    value = self.evaluate(expression.value)
                     self.environment.assign(expression.target.name, value, expression.line, expression.column)
                     return value
                 if isinstance(expression.target, ast.Index):
                     collection = self.evaluate(expression.target.collection)
                     index = self.evaluate(expression.target.index)
+                    value = self.evaluate(expression.value)
                     return set_index(collection, index, value)
             if isinstance(expression, ast.Call):
                 callee = self.evaluate(expression.callee)

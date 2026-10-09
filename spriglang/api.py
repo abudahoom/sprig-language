@@ -9,6 +9,7 @@ from .errors import SprigError, enrich_error
 from .interpreter import Interpreter
 from .lexer import Lexer
 from .parser import Parser
+from .python_compiler import PythonCompiler
 from .vm import VirtualMachine
 
 Engine = Literal["vm", "tree"]
@@ -23,6 +24,14 @@ def parse_source(source: str, filename: str = "<source>") -> Program:
 def compile_source(source: str, filename: str = "<source>") -> CodeObject:
     """Compile source code into Sprig bytecode."""
     return Compiler().compile(parse_source(source, filename), filename)
+
+
+def compile_python(source: str, filename: str = "<source>") -> str:
+    """Check and compile Sprig into standalone Python source code."""
+    try:
+        return PythonCompiler().compile(parse_source(source, filename), source, filename)
+    except SprigError as error:
+        raise enrich_error(error, source, filename)
 
 
 def run_source(

@@ -7,12 +7,14 @@ blocks use braces. Sprig is a learning language, not a production language.
 
 This repository is a complete implementation, not a syntax sketch. Source code
 passes through a hand-written lexer, recursive-descent parser, typed AST, and
-then either:
+then one of:
 
 1. a tree-walk interpreter, or
-2. a bytecode compiler and stack-based virtual machine.
+2. a bytecode compiler and stack-based virtual machine, or
+3. a source-to-source compiler that builds standalone Python files.
 
-The bytecode engine is the default. Both engines implement the same language.
+The bytecode engine remains the default. Python builds use the same syntax,
+AST, lexical environments, built-ins, and value operations.
 
 ## Try it
 
@@ -41,6 +43,27 @@ Or install the `sprig` command from this directory:
 python3 -m pip install .
 sprig examples/fizzbuzz.sprig
 ```
+
+## Build a Python program
+
+From the repository directory, compile an existing Sprig file:
+
+```sh
+python -m spriglang build examples/hello.sprig -o build/hello.py
+python build/hello.py
+```
+
+If you installed the command, use `sprig build examples/hello.sprig -o build/hello.py`.
+Without `-o`, the output is a `.py` file beside the input. Parent output folders
+are created automatically. Building checks the program and writes Python; it
+does not run the program. Failed builds preserve any previous output, and the
+source file cannot be used as the output path.
+
+The generated file runs with Python 3.9+ and the standard library alone. It
+contains Python functions, loops, and conditions plus an embedded copy of
+Sprig's shared runtime. No Sprig installation or original `.sprig` file is
+needed to run it. See [the Python compiler guide](docs/PYTHON_COMPILER.md) for
+semantic checks, errors, and implementation details.
 
 ## Learn Sprig
 
@@ -212,6 +235,9 @@ The implementation is divided by responsibility:
 | `ast_nodes.py` | Typed, immutable AST dataclasses |
 | `interpreter.py` | Direct tree-walk execution |
 | `compiler.py` | AST-to-bytecode compiler with jump patching |
+| `semantics.py` | Conservative name and call checks for Python builds |
+| `python_compiler.py` | AST-to-Python source compiler |
+| `python_runtime.py` | Compiled-function adapters embedded in Python builds |
 | `bytecode.py` | Opcodes, instructions, code objects, disassembler |
 | `vm.py` | Stack VM, call frames, iteration, and lexical closures |
 | `runtime.py` | Environments, built-ins, values, shared operations |
@@ -222,7 +248,7 @@ For a deeper walkthrough, read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Errors
 
-Lexer, parser, and runtime errors include a filename, line, column, offending
+Lexer, parser, semantic, and runtime errors include a filename, line, column, offending
 source line, and caret:
 
 ```text
@@ -232,7 +258,8 @@ broken.sprig:1:7: runtime error: undefined variable 'answer'
 ```
 
 The CLI returns exit code `0` on success, `1` for a Sprig program error, and `2`
-for command-line or file-reading errors.
+for command-line or file errors. Generated Python programs also return `1` for
+Sprig runtime errors, with the original Sprig filename, source line, and caret.
 
 ## Tests
 
@@ -240,14 +267,15 @@ for command-line or file-reading errors.
 python3 -m unittest discover -v
 ```
 
-The tests run programs through both engines, checking arithmetic, parsing,
-lists, control flow, recursion, closures, short-circuiting, built-ins, CLI exit
-codes, bytecode generation, and diagnostic messages.
+The tests compare all examples and lessons across the interpreter, VM, and
+Python backend. They also check semantic errors, evaluation order, standalone
+execution without Sprig installed, CLI builds, atomic output writes, and
+diagnostic messages, alongside the existing language tests.
 
 ## Embedding Sprig in Python
 
 ```python
-from spriglang import compile_source, parse_source, run_source
+from spriglang import compile_python, compile_source, parse_source, run_source
 
 lines = []
 run_source('print("hello")', engine="vm", output=lines.append)
@@ -256,6 +284,9 @@ assert lines == ["hello"]
 program = parse_source("let x = 1 + 2")
 bytecode = compile_source("let x = 1 + 2")
 print(bytecode.disassemble())
+
+python_source = compile_python('print("hello")', filename="hello.sprig")
+# Save python_source to a .py file and run it with Python.
 ```
 
 ## Intentional limits

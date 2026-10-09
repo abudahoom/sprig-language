@@ -6,6 +6,7 @@ from spriglang import SprigError, compile_source, parse_source, run_source
 from spriglang.ast_nodes import FunctionStmt, LetStmt
 from spriglang.lexer import Lexer
 from spriglang.tokens import TokenType
+from tests.python_support import run_python
 
 
 class LanguageTests(unittest.TestCase):
@@ -18,6 +19,8 @@ class LanguageTests(unittest.TestCase):
         for engine in ("tree", "vm"):
             with self.subTest(engine=engine):
                 self.assertEqual(self.run_program(source, engine), expected)
+        with self.subTest(engine="python"):
+            self.assertEqual(run_python(source), expected)
 
     def test_lexer_handles_literals_comments_and_keywords(self) -> None:
         tokens = Lexer('let answer = 41 + 1 # yes\nprint("ok")\n').scan_tokens()

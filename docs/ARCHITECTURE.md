@@ -1,6 +1,7 @@
 # How Sprig works
 
-Sprig has one front end and two execution back ends:
+Sprig has one front end, two existing execution engines, and a Python source
+compiler. The existing engines follow this path:
 
 ```text
 source text
@@ -99,6 +100,21 @@ iterator and jumps past the loop body.
 Both back ends use the operations in `runtime.py` for truthiness, arithmetic,
 indexing, string conversion, environments, and built-ins. Centralizing those
 rules prevents subtle differences between interpreted and compiled programs.
+
+## Python source compiler
+
+The additional path is `AST -> semantic checks -> Python source -> Python`.
+`semantics.py` checks lexical visibility and stable call signatures without
+changing how closures resolve names. `python_compiler.py` lowers every AST
+statement and expression to Python source. Generated functions use captured
+`Environment` objects; loops and conditions use native Python control flow.
+
+The compiler embeds `errors.py`, `runtime.py`, and the small function adapters
+in `python_runtime.py`, removing only package-relative and duplicate future
+imports. This shares the existing value rules while producing a standalone
+file. The source text and filename are embedded for diagnostics, not execution.
+See [PYTHON_COMPILER.md](PYTHON_COMPILER.md) for checks, compatibility details,
+and runtime limits.
 
 ## Extending Sprig
 
